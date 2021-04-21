@@ -1,28 +1,27 @@
-import React, {useState} from "react";
-import { Image, SafeAreaView, StyleSheet, Text } from "react-native";
+import React from "react";
+import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, Dimensions } from "react-native";
 import WateringImg from "../assets/watering.png";
-import { Button } from "../components/Button";
 import colors from "../styles/colors";
+import { Feather } from "@expo/vector-icons";
 
 export function Welcome() {
-  
-  const [visible, setVisible] = useState(true);
-  function handleVisibility() {
-    setVisible(false);
-  }
   
   return (
     <SafeAreaView style={ styles.container }>
       <Text style={ styles.title }> Gerencie { '\n' } suas plantas { '\n' } de forma fácil </Text>
       
-      { visible && <Image source={ WateringImg } style={ styles.image }/>}
+      <Image source={ WateringImg } style={ styles.image } resizeMode="contain"/>
       
       <Text style={ styles.subtitle }>
         Não esqueça mais de regar suas { '\n' } plantas.
         Nós cuidamos de lembrar você { '\n' } sempre que precisar.
       </Text>
       
-      <Button title="🥰" />
+      <TouchableOpacity style={ styles.button } activeOpacity={ 0.8 }>
+        <Text>
+          <Feather name="chevron-right" style={styles.buttonIcon}/>
+        </Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
@@ -31,7 +30,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
   },
   title: {
     fontSize: 32,
@@ -55,13 +54,11 @@ const styles = StyleSheet.create({
     height: 56,
     width: 56,
   },
-  image: {
-    width: 292,
-    height: 284,
-  },
-  buttonText: {
+  buttonIcon: {
     color: colors.white,
-    fontSize: 24,
-  }
-  
+    fontSize: 30,
+  },
+  image: {
+    height: Dimensions.get("window").width * 0.7,
+  },
 });
