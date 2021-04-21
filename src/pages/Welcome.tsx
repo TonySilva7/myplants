@@ -1,14 +1,16 @@
+import { Feather } from "@expo/vector-icons";
 import React from "react";
-import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, Dimensions } from "react-native";
+import { Dimensions, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import WateringImg from "../assets/watering.png";
 import colors from "../styles/colors";
-import { Feather } from "@expo/vector-icons";
+import fonts from "../styles/fonts";
 
 export function Welcome() {
   
   return (
     <SafeAreaView style={ styles.container }>
-      <Text style={ styles.title }> Gerencie { '\n' } suas plantas { '\n' } de forma fácil </Text>
+    <View style={styles.wrapper}>
+      <Text style={ styles.title }> Gerencie { '\n' } suas plantas de { '\n' } forma fácil </Text>
       
       <Image source={ WateringImg } style={ styles.image } resizeMode="contain"/>
       
@@ -18,10 +20,9 @@ export function Welcome() {
       </Text>
       
       <TouchableOpacity style={ styles.button } activeOpacity={ 0.8 }>
-        <Text>
-          <Feather name="chevron-right" style={styles.buttonIcon}/>
-        </Text>
+        <Feather name="chevron-right" style={ styles.buttonIcon }/>
       </TouchableOpacity>
+    </View>
     </SafeAreaView>
   );
 }
@@ -29,17 +30,25 @@ export function Welcome() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  wrapper: {
+    flex: 1,
     alignItems: "center",
     justifyContent: "space-around",
+    paddingHorizontal: 20,
   },
   title: {
-    fontSize: 32,
+    fontFamily: fonts.heading,
+    lineHeight: 32,
+    fontSize: 30,
     fontWeight: "bold",
     textAlign: "center",
     color: colors.heading,
     marginTop: 38
   },
   subtitle: {
+    fontFamily: fonts.text,
+    lineHeight: 26,
     textAlign: "center",
     fontSize: 18,
     paddingHorizontal: 20,
