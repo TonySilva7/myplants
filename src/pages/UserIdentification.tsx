@@ -31,7 +31,7 @@ export function UserIdentification() {
         <View style={ styles.content }>
           <View style={ styles.form }>
             <View style={ styles.header }>
-              <Text style={ styles.emoji }> { isFilled ? "😊" : "☺️" } </Text>
+              <Text style={ styles.emoji }> { isFilled ? "🥰" : "☺️" } </Text>
               <Text style={ styles.title }>Como podemos { "\n" } chamar você?</Text>
             </View>
             
