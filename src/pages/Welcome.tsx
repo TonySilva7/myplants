@@ -9,20 +9,20 @@ export function Welcome() {
   
   return (
     <SafeAreaView style={ styles.container }>
-    <View style={styles.wrapper}>
-      <Text style={ styles.title }> Gerencie { '\n' } suas plantas de { '\n' } forma fácil </Text>
-      
-      <Image source={ WateringImg } style={ styles.image } resizeMode="contain"/>
-      
-      <Text style={ styles.subtitle }>
-        Não esqueça mais de regar suas { '\n' } plantas.
-        Nós cuidamos de lembrar você { '\n' } sempre que precisar.
-      </Text>
-      
-      <TouchableOpacity style={ styles.button } activeOpacity={ 0.8 }>
-        <Feather name="chevron-right" style={ styles.buttonIcon }/>
-      </TouchableOpacity>
-    </View>
+      <View style={ styles.wrapper }>
+        <Text style={ styles.title }> Gerencie { '\n' } suas plantas de { '\n' } forma fácil </Text>
+        
+        <Image source={ WateringImg } style={ styles.image } resizeMode="contain"/>
+        
+        <Text style={ styles.subtitle }>
+          Não esqueça mais de regar suas { '\n' } plantas.
+          Nós cuidamos de lembrar você { '\n' } sempre que precisar.
+        </Text>
+        
+        <TouchableOpacity style={ styles.button } activeOpacity={ 0.8 }>
+          <Feather name="chevron-right" style={ styles.buttonIcon }/>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }
