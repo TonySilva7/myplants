@@ -17,10 +17,10 @@ export function PlantSelect() {
       <View>
         <FlatList
           data={ [1, 2, 3, 4, 5] }
-          renderItem={ ({item}) => <EnvironmentButton title="Cozinha" active/> }
+          renderItem={ ({ item }) => <EnvironmentButton title="Cozinha" active/> }
           horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.environmentList}
+          showsHorizontalScrollIndicator={ false }
+          contentContainerStyle={ styles.environmentList }
         />
       </View>
     </View>
