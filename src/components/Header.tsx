@@ -2,7 +2,7 @@ import React from "react";
 import {StyleSheet, Text, Image, View} from "react-native";
 import { getStatusBarHeight } from "react-native-iphone-x-helper";
 import colors from "../styles/colors";
-import userImage from "../assets/tony.jpg";
+import userImage from "../assets/tony.png";
 import fonts from "../styles/fonts";
 
 export function Header() {
