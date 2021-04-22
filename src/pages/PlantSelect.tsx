@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FlatList, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, FlatList, StyleSheet, Text, View } from "react-native";
 
 import { EnvironmentButton } from "../components/EnvironmentButton";
 import { Header } from "../components/Header";
@@ -56,16 +56,16 @@ export function PlantSelect() {
       ]);
     }
     
-    fetchEnvironment();
+    fetchEnvironment().catch(e => e.getMessage());
   }, []);
   
   useEffect(() => {
-  
+    fetchPlants().catch(e => e.getMessage());
   }, []);
   
   // functions
   async function fetchPlants() {
-    const { data } = await api.get(`plants?_sort=name&_order=asc&_page=${page}&_limit=8`);
+    const { data } = await api.get(`plants?_sort=name&_order=asc&_page=${ page }&_limit=8`);
     
     if (!data)
       return setLoading(false);
@@ -87,7 +87,7 @@ export function PlantSelect() {
     setLoadingMore(true);
     setPage(oldValue => oldValue + 1);
     
-    fetchPlants();
+    fetchPlants().catch(e => e.getMessage());
   }
   
   function handleEnvironmentSelected(environment: string) {
@@ -135,8 +135,9 @@ export function PlantSelect() {
           renderItem={ ({ item }) => <PlantCardPrimary data={ item }/> }
           showsVerticalScrollIndicator={ false }
           numColumns={ 2 }
-          onEndReachedThreshold={0.1}
-          onEndReached={({distanceFromEnd}) => handleFetchMore(distanceFromEnd)}
+          onEndReachedThreshold={ 0.1 }
+          onEndReached={ ({ distanceFromEnd }) => handleFetchMore(distanceFromEnd) }
+          ListFooterComponent={ loadingMore ? <ActivityIndicator color={ colors.green }/> : <></> }
         />
       </View>
     </View>
