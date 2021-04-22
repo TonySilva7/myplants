@@ -2,21 +2,41 @@ import React, { useEffect, useState } from "react";
 import { FlatList, StyleSheet, Text, View } from "react-native";
 import { EnvironmentButton } from "../components/EnvironmentButton";
 import { Header } from "../components/Header";
+import { PlantCardPrimary } from "../components/PlantCardPrimary";
 import api from "../services/api.";
 import colors from "../styles/colors";
 import fonts from "../styles/fonts";
 
-interface environmentProps {
+interface EnvironmentProps {
   key: string,
   title: string
 }
 
+interface PlantsProps {
+  id: string;
+  name: string;
+  about: string;
+  water_tips: string;
+  photo: string;
+  environments: string,
+  frequency: {
+    times: number;
+    repeat_every: string;
+  }
+}
+
 export function PlantSelect() {
   
-  const [environments, setEnvironments] = useState<environmentProps[]>([]);
+  // states
+  const [environments, setEnvironments] = useState<EnvironmentProps[]>([]);
+  const [environmentSelected, setEnvironmentSelected] = useState("all");
+  const [plants, setPlants] = useState<PlantsProps[]>([]);
+  const [filteredPlants, setFilteredPlants] = useState<PlantsProps[]>([]);
+  
+  // effects
   useEffect(() => {
     async function fetchEnvironment() {
-      const { data } = await api.get('plants_environments');
+      const { data } = await api.get('plants_environments?_sort=title&_order=asc');
       setEnvironments([
         {
           key: "all",
@@ -29,6 +49,25 @@ export function PlantSelect() {
     fetchEnvironment();
   }, []);
   
+  useEffect(() => {
+    async function fetchPlants() {
+      const { data } = await api.get('plants?_sort=name&_order=asc');
+      setPlants(data);
+    }
+    
+    fetchPlants();
+  }, []);
+  
+  // functions
+  function handleEnvironmentSelected(environment: string) {
+    setEnvironmentSelected(environment);
+    if (environment === "all")
+      return setFilteredPlants(plants);
+    
+    const filtered = plants.filter((e) => e.environments.includes(environment));
+    setFilteredPlants(filtered);
+  }
+  
   return (
     <View style={ styles.container }>
       <View style={ styles.header }>
@@ -36,13 +75,31 @@ export function PlantSelect() {
         <Text style={ styles.title }>Em qual ambiente</Text>
         <Text style={ styles.subtitle }>você quer deixar sua planta?</Text>
       </View>
+      
       <View>
         <FlatList
           data={ environments }
-          renderItem={ ({ item }) => <EnvironmentButton title={ item.title } /> }
+          renderItem={ ({ item }) => {
+            return (
+              <EnvironmentButton
+                title={ item.title }
+                active={ item.key === environmentSelected }
+                onPress={() => handleEnvironmentSelected(item.key)}
+              />
+            );
+          } }
           horizontal
           showsHorizontalScrollIndicator={ false }
           contentContainerStyle={ styles.environmentList }
+        />
+      </View>
+      
+      <View style={ styles.plants }>
+        <FlatList
+          data={ filteredPlants }
+          renderItem={ ({ item }) => <PlantCardPrimary data={ item }/> }
+          showsVerticalScrollIndicator={ false }
+          numColumns={ 2 }
         />
       </View>
     </View>
@@ -76,5 +133,10 @@ const styles = StyleSheet.create({
     paddingBottom: 5,
     marginLeft: 32,
     marginVertical: 32,
-  }
+  },
+  plants: {
+    flex: 1,
+    paddingHorizontal: 32,
+    justifyContent: "center",
+  },
 });
