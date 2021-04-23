@@ -27,8 +27,12 @@ export function UserIdentification() {
   // functions
   async function handleSubmit() {
     if(!name) return Alert.alert("Mas... e o seu nome? 🥺");
-    await AsyncStorage.setItem("@plantmanager:user", name);
-    navigation.navigate("Confirmation");
+    try {
+      await AsyncStorage.setItem("@plantmanager:user", name);
+      navigation.navigate("Confirmation");
+    } catch (e) {
+      Alert.alert("Não foi possível salvar o seu nome 😕");
+    }
   }
   
   function handleInputBlur() {
