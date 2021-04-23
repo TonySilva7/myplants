@@ -5,6 +5,7 @@ import { FlatList, Image, StyleSheet, Text, View } from "react-native";
 import waterDrop from "../assets/waterdrop.png";
 
 import { Header } from "../components/Header";
+import { PlantCardSecondary } from "../components/PlantCardSecondary";
 import { loadPlant, PlantProps } from "../libs/storage";
 import colors from "../styles/colors";
 import fonts from "../styles/fonts";
@@ -22,38 +23,38 @@ export function MyPlants() {
       const nextTime = formatDistance(
         new Date(plantStored[0].dateTimeNotification).getTime(),
         new Date().getTime(),
-        {locale: pt}
+        { locale: pt }
       );
       
-      setNextWatered(`Não esqueça de regar a ${plantStored[0].name} à ${nextTime}!`);
+      setNextWatered(`Não esqueça de regar a ${ plantStored[0].name } à ${ nextTime }!`);
       setMyPlants(plantStored);
       setLoading(false);
     }
     
     loadStorageData().catch((e) => e.getMessage());
-  },[])
+  }, []);
   
   return (
-    <View style={styles.container}>
-      <Header />
-      <View style={styles.spotLight}>
-        <Image source={waterDrop} style={styles.spotLightImage} />
-        <Text style={styles.spotLightText}> { nextWatered } </Text>
+    <View style={ styles.container }>
+      <Header/>
+      <View style={ styles.spotLight }>
+        <Image source={ waterDrop } style={ styles.spotLightImage }/>
+        <Text style={ styles.spotLightText }> { nextWatered } </Text>
       </View>
       
-      <View style={styles.plants}>
-        <Text style={styles.plantsTitle}>Próximas regadas</Text>
+      <View style={ styles.plants }>
+        <Text style={ styles.plantsTitle }>Próximas regadas</Text>
         <FlatList
-          data={myPlants}
-          keyExtractor={(item) => String(item.id)}
-          renderItem={({item}) => (
-            <Text>Elemento</Text>
-          )}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{flex: 1}}
+          data={ myPlants }
+          keyExtractor={ (item) => String(item.id) }
+          renderItem={ ({ item }) => (
+            <PlantCardSecondary data={ item }/>
+          ) }
+          showsVerticalScrollIndicator={ false }
+          contentContainerStyle={ { flex: 1 } }
         />
       </View>
-      
+    
     </View>
   );
 }
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
     flex: 1,
     color: colors.blue,
     paddingHorizontal: 20,
-    textAlign: "justify",
+    textAlign: "auto",
   },
   plants: {
     flex: 1,

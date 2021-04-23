@@ -35,6 +35,7 @@ export function UserIdentification() {
         button: "Começar",
         icon: "smile",
         nextScreen: "PlantSelect",
+        buttonTitle: "Começar"
       });
     } catch (e) {
       Alert.alert("Não foi possível salvar o seu nome 😕");

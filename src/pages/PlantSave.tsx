@@ -55,6 +55,7 @@ export function PlantSave() {
         button: "Muito Obrigado! :D",
         icon: "hug",
         nextScreen: "MyPlants",
+        buttonTitle: "Muito Obrigado :D"
       });
 
     } catch (e) {
