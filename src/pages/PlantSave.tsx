@@ -44,15 +44,13 @@ export function PlantSave() {
   }
   
   async function handleSavePlant() {
-    const data = await loadPlant();
-    return console.log(data);
     
-    // try {
-    //   await savePlant({...plant, dateTimeNotification: selectedDateTime});
-    //
-    // } catch (e) {
-    //   Alert.alert("Não foi possível salvar! 😢")
-    // }
+    try {
+      await savePlant({...plant, dateTimeNotification: selectedDateTime});
+
+    } catch (e) {
+      Alert.alert("Não foi possível salvar! 😢")
+    }
   }
   
   return (
