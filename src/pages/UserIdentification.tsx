@@ -1,4 +1,3 @@
-import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import {
   Keyboard,
@@ -9,21 +8,26 @@ import {
   Text,
   TextInput,
   TouchableWithoutFeedback,
-  View
+  View,
+  Alert
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 import { Button } from "../components/Button";
 import colors from "../styles/colors";
 import fonts from "../styles/fonts";
 
 export function UserIdentification() {
-  
-  
+  // states
   const [isFocused, setIsFocused] = useState(false);
   const [isFilled, setIsFilled] = useState(false);
   const [name, setName] = useState<string>();
   const navigation = useNavigation();
   
-  function handleSubmit() {
+  // functions
+  async function handleSubmit() {
+    if(!name) return Alert.alert("Mas... e o seu nome? 🥺");
+    await AsyncStorage.setItem("@plantmanager:user", name);
     navigation.navigate("Confirmation");
   }
   
