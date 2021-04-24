@@ -34,8 +34,7 @@ export async function savePlant(plant: PlantProps): Promise<void> {
     if (repeat_every === 'week') {
       const interval = Math.trunc(7 / times);
       nextTime.setDate(now.getDate() + interval);
-    }
-    else{
+    } else {
       nextTime.setDate(nextTime.getDate() + 1);
     }
     
