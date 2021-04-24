@@ -7,16 +7,16 @@ export interface PlantProps {
   about: string;
   water_tips: string;
   photo: string;
-  environments: string,
+  environments: string;
   frequency: {
     times: number;
     repeat_every: string;
-  },
+  };
   dateTimeNotification: Date;
   hour: string;
 }
 
-interface StoragePlantProps {
+export interface StoragePlantProps {
   [id: string]: {
     data: PlantProps;
   }

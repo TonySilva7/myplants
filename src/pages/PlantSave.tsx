@@ -3,7 +3,7 @@ import { useRoute } from "@react-navigation/core";
 import { useNavigation } from "@react-navigation/native";
 import { format, isBefore } from "date-fns";
 import React, { useState } from "react";
-import { Alert, Image, Platform, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Image, Platform, StyleSheet, Text, TouchableOpacity, View, ScrollView } from "react-native";
 import { getBottomSpace } from "react-native-iphone-x-helper";
 
 import { SvgFromUri } from "react-native-svg";
@@ -64,7 +64,10 @@ export function PlantSave() {
   }
   
   return (
-    <>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={styles.container}
+    >
       <View style={ styles.container }>
         <View style={ styles.plantInfo }>
           <SvgFromUri uri={ plant.photo } height={ 150 } width={ 150 }/>
@@ -107,7 +110,7 @@ export function PlantSave() {
           <Button title="Cadastrar Planta" onPress={handleSavePlant}/>
         </View>
       </View>
-    </>
+    </ScrollView>
   );
 }
 
