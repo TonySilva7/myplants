@@ -1,7 +1,8 @@
-import { formatDistance } from "date-fns";
+import { formatDistance } from "date-fns/esm";
 import { pt } from "date-fns/locale";
 import React, { useEffect, useState } from "react";
-import { Alert, FlatList, Image, StyleSheet, Text, View } from "react-native";
+import { Alert, Image, StyleSheet, Text, View } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
 import waterDrop from "../assets/waterdrop.png";
 
 import { Header } from "../components/Header";
@@ -12,77 +13,84 @@ import colors from "../styles/colors";
 import fonts from "../styles/fonts";
 
 export function MyPlants() {
-  // states
   const [myPlants, setMyPlants] = useState<PlantProps[]>([]);
   const [loading, setLoading] = useState(true);
   const [nextWatered, setNextWatered] = useState<string>();
   
-  // effects
+  function handleRemove(plant: PlantProps) {
+    Alert.alert("Remover", `Deseja remover a ${ plant.name }?`, [
+      {
+        text: "Não",
+        style: "cancel",
+      },
+      {
+        text: "Sim",
+        onPress: async () => {
+          try {
+            await removePlant(plant.id);
+            
+            setMyPlants((oldData) =>
+              oldData.filter((item) => item.id !== plant.id)
+            );
+          } catch (error) {
+            Alert.alert('Não foi possível remover.');
+          }
+        },
+      },
+    ]);
+  }
+  
   useEffect(() => {
     async function loadStorageData() {
-      const plantStored = await loadPlant();
+      const plantsStoraged = await loadPlant();
+      
       const nextTime = formatDistance(
-        new Date(plantStored[0].dateTimeNotification).getTime(),
+        new Date(plantsStoraged[0].dateTimeNotification).getTime(),
         new Date().getTime(),
         { locale: pt }
       );
       
-      setNextWatered(`Não esqueça de regar a ${ plantStored[0].name } à ${ nextTime }!`);
-      setMyPlants(plantStored);
+      setNextWatered(
+        `Não esqueça de regar a ${ plantsStoraged[0].name } às ${ nextTime } horas.`
+      );
+      
+      setMyPlants(plantsStoraged);
       setLoading(false);
     }
     
-    loadStorageData().catch((e) => e.getMessage());
+    loadStorageData();
   }, []);
   
-  // functions
-  function handleRemove(plant: PlantProps) {
-    Alert.alert("Remover", `Deseja remover a ${ plant.name }?`, [
-      {
-        text: "Não 😱",
-        style: "cancel",
-      },
-      {
-        text: "Sim 😉",
-        onPress: async () => {
-          try {
-            await removePlant(plant.id);
-            setMyPlants((oldData) => oldData.filter((item) => item.id !== plant.id));
-          } catch (e) {
-            Alert.alert("Algo deu errado! 😕");
-          }
-        }
-      }
-    ]);
-  }
-  
-  // returns
-  if (loading)
+  if (loading) {
     return <Load/>;
+  }
   
   return (
     <View style={ styles.container }>
       <Header/>
-      <View style={ styles.spotLight }>
-        <Image source={ waterDrop } style={ styles.spotLightImage }/>
-        <Text style={ styles.spotLightText }> { nextWatered } </Text>
-      </View>
       
+      <View style={ styles.spotlight }>
+        <Image source={ waterDrop } style={ styles.spotlightImage }/>
+        <Text style={ styles.spotlightText }>{ nextWatered }</Text>
+      </View>
       <View style={ styles.plants }>
         <Text style={ styles.plantsTitle }>Próximas regadas</Text>
+        
         <FlatList
           data={ myPlants }
           keyExtractor={ (item) => String(item.id) }
           renderItem={ ({ item }) => (
-            <PlantCardSecondary data={ item } handleRemove={ () => {
-              handleRemove(item);
-            } }/>
+            <PlantCardSecondary
+              data={ item }
+              handleRemove={ () => {
+                handleRemove(item);
+              } }
+            />
           ) }
           showsVerticalScrollIndicator={ false }
-          contentContainerStyle={ { flex: 1 } }
+          // contentContainerStyle={{ flex: 1 }}
         />
       </View>
-    
     </View>
   );
 }
@@ -94,27 +102,25 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 30,
     paddingTop: 50,
-    backgroundColor: colors.background
+    backgroundColor: colors.background,
   },
-  spotLight: {
+  spotlight: {
     backgroundColor: colors.blue_light,
     paddingHorizontal: 20,
     borderRadius: 20,
     height: 110,
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center"
-    
+    alignItems: "center",
   },
-  spotLightImage: {
+  spotlightImage: {
     width: 60,
-    height: 60
+    height: 60,
   },
-  spotLightText: {
+  spotlightText: {
     flex: 1,
     color: colors.blue,
     paddingHorizontal: 20,
-    textAlign: "auto",
   },
   plants: {
     flex: 1,
@@ -125,5 +131,5 @@ const styles = StyleSheet.create({
     fontFamily: fonts.heading,
     color: colors.heading,
     marginVertical: 20,
-  }
+  },
 });
