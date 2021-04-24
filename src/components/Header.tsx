@@ -17,7 +17,7 @@ export function Header() {
       setUserName(user || "");
     }
     
-    loadStorageUserName().catch(e => e.generatedMessage);
+    loadStorageUserName().catch(e => e.getMessage());
   }, []);
   
   return (
