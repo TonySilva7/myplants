@@ -8,7 +8,7 @@ import waterDrop from "../assets/waterdrop.png";
 import { Header } from "../components/Header";
 import { Load } from "../components/Load";
 import { PlantCardSecondary } from "../components/PlantCardSecondary";
-import { loadPlant, PlantProps, StoragePlantProps } from "../libs/storage";
+import { loadPlant, PlantProps, removePlant } from "../libs/storage";
 import colors from "../styles/colors";
 import fonts from "../styles/fonts";
 
@@ -47,13 +47,8 @@ export function MyPlants() {
         text: "Sim 😉",
         onPress: async () => {
           try {
-            const data = await AsyncStorage.getItem("@plantmanager:plants");
-            const plants = data ? (JSON.parse(data) as StoragePlantProps) : {};
-            delete plants[plant.id];
-            
-            await AsyncStorage.setItem("@plantmanager:plants", JSON.stringify(plants));
+            await removePlant(plant.id);
             setMyPlants((oldData) => oldData.filter((item) => item.id !== plant.id));
-            
           } catch (e) {
             Alert.alert("Algo deu errado! 😕");
           }
