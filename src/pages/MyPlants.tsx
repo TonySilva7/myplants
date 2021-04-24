@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { formatDistance } from "date-fns";
 import { pt } from "date-fns/locale";
 import React, { useEffect, useState } from "react";
@@ -38,7 +37,7 @@ export function MyPlants() {
   
   // functions
   function handleRemove(plant: PlantProps) {
-    Alert.alert("Remover", `Deseja remover a ${plant.name}?`, [
+    Alert.alert("Remover", `Deseja remover a ${ plant.name }?`, [
       {
         text: "Não 😱",
         style: "cancel",
@@ -54,7 +53,7 @@ export function MyPlants() {
           }
         }
       }
-    ])
+    ]);
   }
   
   // returns
